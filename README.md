@@ -1,1 +1,1 @@
-My first read me
+Starting to code with C programming language
