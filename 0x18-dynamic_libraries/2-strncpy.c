@@ -2,18 +2,17 @@
 #include "main.h"
 
 /**
-* _strncat - concatenate 2 strings
+* _strncpy - copies 1 string into another
 * @dest: pointer to the first string
 * @src: pointer to the second string
-* @n: interger n, number or size of strings to concatenate
+* @n: interger n, number or size of strings to copy
 *
 * Return: pointer to string dest
 */
-
-char *_strncat(char *dest, char *src, int n)
+char *_strncpy(char *dest, char *src, int n)
 {
 
-strncat(dest, src, n);
+strncpy(dest, src, n);
 
 return (dest);
 
