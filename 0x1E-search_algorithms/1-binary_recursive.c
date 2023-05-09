@@ -1,8 +1,3 @@
-/*
- * File: 1-binary.c
- * Auth: Blessing Joseph
- */
-
 #include "search_algos.h"
 
 /**
