@@ -1,89 +1,65 @@
 #include <stdio.h>
+#include "search_algos.h"
 
 /**
- * print_array - prints array being searched
- * @array: array
- * @start: starting index
- * @end: ending index
+ * rec_search - searches for a value in an array of
+ * integers using the Binary search algorithm
  *
- * Return: void
- */
-void print_array(int *array, int start, int end)
-{
-	int i;
-
-	if (!array || start > end)
-		return;
-
-	printf("Searching in array:");
-	for (i = start; i <= end; i++)
-	{
-		printf(" %d", array[i]);
-		if (i != end)
-			printf(",");
-		else
-			printf("\n");
-	}
-}
-
-/**
- * first_value - finds first occurrence of value in array
- * @array: array to search in
- * @value: value to search for
- * @index: current index
  *
- * Return: value's first occurence index
+ * @array: input array
+ * @size: size of the array
+ * @value: value to search in
+ * Return: index of the number
  */
-int first_value(int *array, int value, int index)
+int rec_search(int *array, size_t size, int value)
 {
-	if (!array)
-		return (index);
+	size_t half = size / 2;
+	size_t i;
 
-	if (index < 0 || array[index] != value)
-		return (index + 1);
-	return (first_value(array, value, index - 1));
-}
-
-/**
- * binary_search - binary search using recursion
- * @array: array to search in
- * @value: value to search for
- * @left: left index
- * @right: right index
- *
- * Return: index of value if it exists
- */
-int binary_search(int *array, int value, int left, int right)
-{
-	int mid;
-
-	if (!array || left > right)
+	if (array == NULL || size == 0)
 		return (-1);
 
-	print_array(array, left, right);
-	/* mid = (left + right) / 2; */
-	mid = left + ((right - left) / 2);
-	if (array[mid] == value)
-		return (first_value(array, value, mid));
+	printf("Searching in array");
 
-	if (array[mid] < value)
-		return (binary_search(array, value, mid + 1, right));
-	else
-		return (binary_search(array, value, left, mid - 1));
+	for (i = 0; i < size; i++)
+		printf("%s %d", (i == 0) ? ":" : ",", array[i]);
+
+	printf("\n");
+
+	if (half && size % 2 == 0)
+		half--;
+
+	if (value == array[half])
+	{
+		if (half > 0)
+			return (rec_search(array, half + 1, value));
+		return ((int)half);
+	}
+
+	if (value < array[half])
+		return (rec_search(array, half + 1, value));
+
+	half++;
+	return (rec_search(array + half, size - half, value) + half);
 }
 
 /**
- * advanced_binary - searches for value using advanced binary search algorithm
- * @array: array to search in
- * @size: array's size
- * @value: value to search for
+ * advanced_binary - calls to rec_search to return
+ * the index of the number
  *
- * Return: value's index (Exists) | -1 (Not Exists)
+ * @array: input array
+ * @size: size of the array
+ * @value: value to search in
+ * Return: index of the number
  */
 int advanced_binary(int *array, size_t size, int value)
 {
-	if (!array)
+	int index;
+
+	index = rec_search(array, size, value);
+
+	if (index >= 0 && array[index] != value)
 		return (-1);
 
-	return (binary_search(array, value, 0, (int)size - 1));
+	return (index);
 }
