@@ -1,50 +1,50 @@
 #include <stdio.h>
-#include <math.h>
 #include "search_algos.h"
+#include <math.h>
 
 /**
- * jump_list - searches for value in linked list using Jump search algorithm
- * @list: pointer to head of list
- * @size: number of nodes in list
- * @value: value to searched for
+ * jump_list - searches for a value in an array of
+ * integers using the Jump search algorithm
  *
- * Return: pointer to first node (Exists) | NULL (Not Exists)
+ * @list: input list
+ * @size: size of the array
+ * @value: value to search in
+ * Return: index of the number
  */
 listint_t *jump_list(listint_t *list, size_t size, int value)
 {
-	size_t i;
-	short more;
-	listint_t *start, *end;
+	size_t index, k, m;
+	listint_t *prev;
 
-	if (!list)
+	if (list == NULL || size == 0)
 		return (NULL);
 
-	end = list, more = 1;
-	while (more)
+	m = (size_t)sqrt((double)size);
+	index = 0;
+	k = 0;
+
+	do {
+		prev = list;
+		k++;
+		index = k * m;
+
+		while (list->next && list->index < index)
+			list = list->next;
+
+		if (list->next == NULL && index != list->index)
+			index = list->index;
+		printf("Value checked at index [%d] = [%d]\n", (int)index, list->n);
+
+	} while (index < size && list->next && list->n < value);
+	printf("Value found between indexes ");
+	printf("[%d] and [%d]\n", (int)prev->index, (int)list->index);
+
+	for (; prev && prev->index <= list->index; prev = prev->next)
 	{
-		if (end->n >= value)
-			break;
-		start = end;
-		for (i = 0; i < sqrt(size); i++)
-		{
-			if (!end->next)
-			{
-				more = 0;
-				break;
-			}
-			end = end->next;
-		}
-		printf("Value checked at index [%lu] = [%d]\n", end->index, end->n);
+		printf("Value checked at index [%d] = [%d]\n", (int)prev->index, prev->n);
+		if (prev->n == value)
+			return (prev);
 	}
 
-	printf("Value found between indexes [%lu] and [%lu]\n", start->index,
-end->index);
-	while (start && start->n <= end->n)
-	{
-		printf("Value checked at index [%lu] = [%d]\n", start->index, start->n);
-		if (start->n == value)
-			return (start);
-		start  = start->next;
-	}
 	return (NULL);
 }
