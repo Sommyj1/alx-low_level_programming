@@ -1,9 +1,9 @@
+#include "search_algos.h"
+
 /*
  * File: 0-linear.c
  * Auth: Blessing Joseph
  */
-
-#include "search_algos.h"
 
 /**
   * linear_search - Searches for a value in an array
